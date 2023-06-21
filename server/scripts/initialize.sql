@@ -1,0 +1,137 @@
+CREATE DATABASE IF NOT EXISTS wct;
+USE wct;
+CREATE Table BookingAgent(
+EmployerID INTEGER AUTO_INCREMENT,
+FirstName CHAR(20),
+LastName CHAR(20),
+PhoneNum CHAR(20),
+Email CHAR(80),
+ReferenceID INTEGER,
+UNIQUE (ReferenceID),
+PRIMARY KEY (EmployerID)
+);
+
+CREATE Table Stadium(
+StadiumName CHAR(20),
+Capacity INTEGER,
+PRIMARY KEY (StadiumName)
+);
+
+CREATE Table TripManager(
+EmployerID INTEGER AUTO_INCREMENT,
+FirstName CHAR(20),
+LastName CHAR(20),
+AreaOfExpertise CHAR(20),
+PRIMARY KEY (EmployerID)
+);
+
+CREATE Table Accommodations(
+Address CHAR(80),
+Name CHAR(40),
+Tier CHAR(40),
+PRIMARY KEY (Address),
+Cost INTEGER,
+City CHAR(80)
+);
+
+CREATE Table Bookings(
+BookingID INTEGER AUTO_INCREMENT,
+Address CHAR(80),
+BookingAgentID INTEGER,
+CheckOutDate DATETIME,
+CheckInDate DATETIME,
+RoomNumber INTEGER,
+PRIMARY KEY (BookingID),
+FOREIGN KEY (Address) REFERENCES Accommodations(Address),
+FOREIGN KEY (BookingAgentID) REFERENCES BookingAgent(EmployerID)
+);
+
+
+CREATE Table Fans(
+FanID INTEGER AUTO_INCREMENT,
+BookingID INTEGER,
+FirstName CHAR(20),
+LastName CHAR(20),
+Nationality CHAR(20),
+Gender CHAR(20),
+Email CHAR(80),
+Password CHAR(80),
+UNIQUE (Email),
+PRIMARY KEY (FanID),
+FOREIGN KEY (BookingID) REFERENCES Bookings(BookingID)
+);
+
+CREATE Table Games(
+GameID INTEGER AUTO_INCREMENT,
+Team1 CHAR(40),
+Team2 CHAR(40),
+StadiumName CHAR(40),
+StartDateTime DATETIME,
+PRIMARY KEY (GameID),
+FOREIGN KEY (StadiumName) REFERENCES Stadium(StadiumName)
+);
+
+CREATE Table Activities(
+ActivityID INTEGER AUTO_INCREMENT,
+Name CHAR(40),
+Location CHAR(80),
+TripManagerID INTEGER NOT NULL,
+Description VARCHAR(1000),
+PRIMARY KEY (ActivityID),
+FOREIGN KEY (TripManagerID) REFERENCES TripManager(EmployerID)
+ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+CREATE Table Trips(
+TripID INTEGER AUTO_INCREMENT,
+Destination CHAR(100),
+DepartureDateTime DATETIME,
+TripManagerID INTEGER NOT NULL,
+PRIMARY KEY (TripID),
+FOREIGN KEY (TripManagerID)REFERENCES TripManager(EmployerID)
+ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+
+CREATE Table Participates(
+FanID INTEGER,
+ActivityID INTEGER,
+PRIMARY KEY (FanID, ActivityID),
+FOREIGN KEY (FanID) REFERENCES Fans(FanID)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (ActivityID) REFERENCES Activities(ActivityID)
+);
+
+CREATE Table Takes(
+FanID INTEGER,
+TripID INTEGER,
+PRIMARY KEY (FanID, TripID),
+FOREIGN KEY (FanID) REFERENCES Fans(FanID)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (TripID) REFERENCES Trips(TripID)
+);
+
+CREATE Table Offers(
+SeatNum INTEGER,
+GameID INTEGER,
+Zone CHAR(10),
+IsReserved TINYINT,
+GateNumber INTEGER,
+BookingAgentID INTEGER,
+PRIMARY KEY (SeatNum, GameID, Zone),
+FOREIGN KEY (GameID) REFERENCES Games(GameID),
+FOREIGN KEY (BookingAgentID) REFERENCES BookingAgent(EmployerID)
+);
+
+
+CREATE Table Attends(
+FanID INTEGER,
+SeatNum INTEGER,
+Zone CHAR(10),
+GameID INTEGER,
+PRIMARY KEY (FanID, SeatNum, Zone, GameID),
+FOREIGN KEY (FanID) REFERENCES Fans(FanID)
+ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (GameID) REFERENCES Games(GameID),
+UNIQUE (SeatNum, Zone, GameID)
+);

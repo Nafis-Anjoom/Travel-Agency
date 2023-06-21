@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "17249484-c9b8-4a26-b7e1-7ff417330772",
+		"name": "wct",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24397054"
+	},
+	"item": [
+		{
+			"name": "booking agent",
+			"item": [
+				{
+					"name": "get booking agents",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/getBookingAgents",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"getBookingAgents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add booking agent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employerId\": \"newId11\",\r\n    \"firstName\": \"Grandfgvst\",\r\n    \"lastName\": \"gadsfg\",\r\n    \"referenceId\": \"asdfadsadsfdsffa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/addBookingAgent",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"addBookingAgent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edit booking agent",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employerId\": \"newId_updated\",\r\n    \"firstName\": \"sam\",\r\n    \"lastName\": \"harris\",\r\n    \"referenceId\": \"speed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api}}/editBookingAgent/newId2",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"editBookingAgent",
+								"newId2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete booking agent",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/deleteBookingAgent/newId_updated",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"deleteBookingAgent",
+								"newId_updated"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api",
+			"value": "http://localhost:3000",
+			"type": "string"
+		}
+	]
+}
